@@ -16,7 +16,7 @@ class EmptyDirectionError(Exception):
 class Ant:
     def __init__(self, x, y, direction, pixel_color):
         # if not x or not y:
-        #     raise InvalidLocationError("Location is empty")
+        #     raise InvalidLocationError("Location is empty"
         self._x = x
         self._y = y
         if not pixel_color:
