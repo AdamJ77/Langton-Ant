@@ -4,6 +4,10 @@ from errors_project_ant import WrongProbabilityError, WrongDimensionsError
 
 
 def random_ant_location(height, width):
+    """  
+    Chooses random tuple of integers that are representing ant location
+    in two-dimensional board.
+    """
     if height < 0 or width < 0:
         raise WrongDimensionsError(height, width)
     x = randint(0, height - 1)
@@ -12,6 +16,9 @@ def random_ant_location(height, width):
 
 
 def random_color_square(probability_of_black_square):
+    """
+    Chooses black or white color with given probability of black occurence.
+    """
     if probability_of_black_square > 1 or probability_of_black_square < 0:
         raise WrongProbabilityError(probability_of_black_square)
     list_of_colors = []
@@ -26,6 +33,10 @@ def random_color_square(probability_of_black_square):
 
 
 def random_direction_ant(wrong_ways):
+    """
+    Chooses randomly one way from list of directions that
+    are not in given wrong directions.
+    """
     correct_ways = [way for way in directions if way not in wrong_ways]
     final_direction = choice(correct_ways)
     return final_direction

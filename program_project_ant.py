@@ -68,16 +68,20 @@ def board_moves(height, width, x, y, moves, hop, name):
         way = ant.get_direction()
         x_ant = ant.get_x()
         y_ant = ant.get_y()
-        if (way == "left" or way == "up") and (y_ant == 0 and x_ant == 0):
+        if (way == "left" or way == "up") and \
+           (y_ant == 0 and x_ant == 0):
             random_way = random_direction_ant(["left", "up"])
             ant.set_direction(random_way)
-        elif (way == "up" or way == "right") and (x_ant == 0 and y_ant == width - 1):
+        elif (way == "up" or way == "right") and \
+             (x_ant == 0 and y_ant == width - 1):
             random_way = random_direction_ant(["right", "up"])
             ant.set_direction(random_way)
-        elif (way == "down" or way == "right") and (x_ant == height - 1 and y_ant == width - 1):
+        elif (way == "down" or way == "right") and \
+             (x_ant == height - 1 and y_ant == width - 1):
             random_way = random_direction_ant(["right", "down"])
             ant.set_direction(random_way)
-        elif (way == "left" or way == "down") and (x_ant == height - 1 and y_ant == 0):
+        elif (way == "left" or way == "down") and \
+             (x_ant == height - 1 and y_ant == 0):
             random_way = random_direction_ant(["left", "down"])
             ant.set_direction(random_way)
         elif way == "up" and x_ant == 0:

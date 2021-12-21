@@ -2,6 +2,11 @@ from program_project_ant import interface
 
 
 def main():
+    """
+    Main function of the program. Uses interface to communicate with user.
+    Has three main options.
+    """
+
     print("LANGTON'S ANT\n\
     1 - create white board with given size\n\
     2 - process Langton's ant with given black-white image\n\
