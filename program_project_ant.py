@@ -31,7 +31,7 @@ def interface(probability, isExistingPicture):
         name = create_board(height, width, x, y, probability)
     else:
         name = input("Insert full name of image file: ")
-        x, y, height, width = convert_image_to_board_with_ant(name)
+        x, y, height, width, saved_image = convert_image_to_board_with_ant(name)
         name = "obrazy/image_board_first_ex_picture.png"
     moves = input("Insert number of moves: ")
     moves = int(moves)
@@ -64,7 +64,7 @@ def board_moves(height, width, x, y, moves, hop, name):
             numpy_image[x, y] = BLACK
         else:
             numpy_image[x, y] = WHITE
-        ant.pivot(color)
+        ant.pivot()
         way = ant.get_direction()
         x_ant = ant.get_x()
         y_ant = ant.get_y()
@@ -125,4 +125,4 @@ def convert_image_to_board_with_ant(name):
     numpy_img[x, y] = (255, 128, 0)
     final_image = Image.fromarray(numpy_img)
     final_image.save("obrazy/image_board_first_ex_picture.png")
-    return (x, y, height_img, width_img)
+    return (x, y, height_img, width_img, final_image)

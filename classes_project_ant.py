@@ -1,8 +1,4 @@
-from config_project_ant import WHITE, directions
-
-
-class InvalidLocationError(Exception):
-    pass
+from config_project_ant import BLACK, WHITE, directions
 
 
 class EmptyPixelColorError(Exception):
@@ -13,14 +9,24 @@ class EmptyDirectionError(Exception):
     pass
 
 
+class InvalidDirectionError(Exception):
+    def __init__(self, direction) -> None:
+        super().__init__("Direction not in directions list")
+        self.direction = direction
+
+
+class InvalidColorError(Exception):
+    pass
+
+
 class Ant:
-    def __init__(self, x, y, direction, pixel_color):
-        # if not x or not y:
-        #     raise InvalidLocationError("Location is empty")
+    def __init__(self, x: int, y: int, direction: str, pixel_color: tuple):
         self._x = x
         self._y = y
         if not pixel_color:
             raise EmptyPixelColorError("Color cannot be empty")
+        if pixel_color is not WHITE and pixel_color is not BLACK:
+            raise InvalidColorError("Invalid color")
         self._pixel_color = pixel_color
         self._direction = direction if direction else "up"
 
@@ -33,19 +39,17 @@ class Ant:
     def get_y(self):
         return self._y
 
-    def set_x(self, new_x):
-        # if not new_x:
-        #     raise InvalidLocationError("Location is empty")
+    def set_x(self, new_x: int):
         self._x = new_x
 
-    def set_y(self, new_y):
-        # if not new_y:
-        #     raise InvalidLocationError("Location is empty")
+    def set_y(self, new_y: int):
         self._y = new_y
 
-    def set_direction(self, new_direction):
+    def set_direction(self, new_direction: str):
         if not new_direction:
             raise EmptyDirectionError("Direction is empty")
+        if new_direction not in directions:
+            raise InvalidDirectionError(new_direction)
         self._direction = new_direction
 
     def get_pixel_color(self):
@@ -56,9 +60,14 @@ class Ant:
             raise EmptyPixelColorError("Color cannot be empty")
         self._pixel_color = new_color
 
-    def pivot(self, color):
-        if not color:
-            raise EmptyPixelColorError("Color cannot be empty")
+    def pivot(self):
+        """
+        Turns ant ninety degree left or right depending on
+        which pixel color it stands.
+        """
+        color = self.get_pixel_color()
+        if color is not WHITE and color is not BLACK:
+            raise InvalidColorError("Invalid color")
         if color is WHITE:
             shift_dir = 3
         else:
@@ -68,6 +77,9 @@ class Ant:
         self.set_direction(directions[direction])
 
     def move_forward(self):
+        """
+        Moves ant one step forward in AxB board depending on direction.
+        """
         if self.get_direction() == "up":
             self.set_x(self._x - 1)
         elif self.get_direction() == "left":

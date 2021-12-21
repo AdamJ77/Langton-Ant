@@ -4,7 +4,7 @@ from errors_project_ant import WrongProbabilityError, WrongDimensionsError
 
 
 def random_ant_location(height, width):
-    """  
+    """
     Chooses random tuple of integers that are representing ant location
     in two-dimensional board.
     """
