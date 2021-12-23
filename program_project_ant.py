@@ -21,9 +21,11 @@ def interface(probability, isExistingPicture):
         try:
             size2 = input("Insert board size as integers: ")
             height, width = size2.split()
+            height = int(height)
+            width = int(width)
         except ValueError:
             raise WrongBoardSizeError(size2)
-        if int(height) < 2 or int(width) < 2:
+        if height < 2 or width < 2:
             raise WrongDimensionsError(height, width)
         height = int(height)
         width = int(width)
@@ -31,7 +33,7 @@ def interface(probability, isExistingPicture):
         name = create_board(height, width, x, y, probability)
     else:
         name = input("Insert full name of image file: ")
-        x, y, height, width, saved_image = convert_image_to_board_with_ant(name)
+        x, y, height, width, savedimage = convert_image_to_board_with_ant(name)
         name = "obrazy/image_board_first_ex_picture.png"
     moves = input("Insert number of moves: ")
     moves = int(moves)
@@ -43,6 +45,12 @@ def interface(probability, isExistingPicture):
 
 
 def create_board(height, width, x, y, probability):
+    """
+    Creates three dimensional array with given shape (height, width)
+    filled with zeros. For each pixel draws either black or white
+    color with given probability and assigns to it.
+    For given ant location (x, y), it puts orange color in this pixel.
+    """
     array = np.zeros([height, width, 3], dtype=np.uint8)
     for i in range(width):
         for j in range(height):
@@ -112,6 +120,13 @@ def board_moves(height, width, x, y, moves, hop, name):
 
 
 def convert_image_to_board_with_ant(name):
+    """
+    Converts given png image into 3-dimensional array (RGB)
+    and puts orange pixel(ant) in random pixel.
+    Saves new image as image_board_first_ex_picture.png in
+    directory obrazy. Returns size of new picture, location of ant
+    and new image itself.
+    """
     if not name:
         raise EmptyNameError("Image name cannot be empty")
     try:

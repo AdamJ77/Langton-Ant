@@ -14,7 +14,7 @@ from errors_project_ant import (
     WrongProbabilityError
 )
 from config_project_ant import BLACK, WHITE
-from program_project_ant import convert_image_to_board_with_ant, interface
+from program_project_ant import convert_image_to_board_with_ant, create_board, interface
 from random_utils_project_ant import (
     random_ant_location,
     random_color_square,
@@ -205,7 +205,29 @@ def test_convert_image_to_board_with_ant(monkeypatch):
 
 
 def test_create_board_probability_black():
-    pass
+    height = 50
+    width = 50
+    all_pixels = height * width
+    probability = 1
+    x = 20
+    y = 25
+    black_pixels = 0
+    white_pixels = 0
+    others_pixel = 0
+    image = create_board(height, width, x, y, probability)
+    image1 = Image.open(image)
+    for i in range(50):
+        for j in range(50):
+            if image1.getpixel((i, j)) == WHITE:
+                white_pixels += 1
+            elif image1.getpixel((i, j)) == BLACK:
+                black_pixels += 1
+            else:
+                others_pixel += 1
+    assert black_pixels == 2499
+    assert white_pixels == 0
+    assert others_pixel == 1
+    assert all_pixels == black_pixels + white_pixels + others_pixel
 
 
 def test_create_board_probability_white():

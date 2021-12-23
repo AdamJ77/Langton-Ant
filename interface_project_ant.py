@@ -1,3 +1,4 @@
+from errors_project_ant import WrongProbabilityError
 from program_project_ant import interface
 
 
@@ -29,7 +30,10 @@ def main():
             exit_program = True
         elif choice1 == "3":
             probability = input("Insert probability of black pixel: ")
-            probability = float(probability)
+            try:
+                probability = float(probability)
+            except ValueError:
+                raise WrongProbabilityError(probability)
             isExistingPicture = False
             interface(probability, isExistingPicture)
             print("Results in directory obrazy")
