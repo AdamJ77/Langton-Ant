@@ -21,6 +21,21 @@ class InvalidColorError(Exception):
 
 class Ant:
     def __init__(self, x: int, y: int, direction: str, pixel_color: tuple):
+        """
+        Class Ant. Contains attributes:
+        :param x: ant's x (height) coordinate (location)
+        :type x: int
+
+        :param y: ant's y (width) coordinate (location)
+        :type y: int
+
+        :param direction: ant's direction, default to 'up'
+        :type direction: str
+
+        :param pixel_color: color of pixel where ant is in RGB mode,
+        either WHITE (0, 0, 0) or BLACK (255, 255, 255)
+        :type pixel_color: tuple
+        """
         self._x = x
         self._y = y
         if not pixel_color:
