@@ -1,5 +1,5 @@
 from errors_project_ant import WrongProbabilityError
-from program_project_ant import interface
+from program_project_ant import create_gif_from_images, interface
 
 
 def main():
@@ -19,15 +19,9 @@ def main():
         if choice1 == "1":
             probability = 0
             isExistingPicture = False
-            interface(probability, isExistingPicture)
-            print("Results in directory obrazy")
-            exit_program = True
         elif choice1 == "2":
             probability = 0
             isExistingPicture = True
-            interface(probability, isExistingPicture)
-            print("Results in directory obrazy")
-            exit_program = True
         elif choice1 == "3":
             probability = input("Insert probability of black pixel: ")
             try:
@@ -35,12 +29,16 @@ def main():
             except ValueError:
                 raise WrongProbabilityError(probability)
             isExistingPicture = False
-            interface(probability, isExistingPicture)
-            print("Results in directory obrazy")
-            exit_program = True
         else:
             print("-Wrong number-")
             continue
+        interface(probability, isExistingPicture)
+        choice2 = input("Make gif from images?\n1 - Yes\n2- No\n: ")
+        if choice2 == "1":
+            directory = "obrazy/"
+            create_gif_from_images(directory)
+        print("Results in directory 'obrazy'")
+        exit_program = True
 
 
 if __name__ == "__main__":

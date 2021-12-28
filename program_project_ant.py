@@ -1,3 +1,5 @@
+import imageio
+import os
 import numpy as np
 from PIL import Image
 from config_project_ant import BLACK, WHITE, directions
@@ -139,5 +141,16 @@ def convert_image_to_board_with_ant(name):
     x, y = random_ant_location(height_img, width_img)
     numpy_img[x, y] = (255, 128, 0)
     final_image = Image.fromarray(numpy_img)
-    final_image.save("obrazy/image_board_first_ex_picture.png")
+    final_image.save("obrazy/image_board_0_from_mock.png")
     return (x, y, height_img, width_img, final_image)
+
+
+def create_gif_from_images(directory_name):
+    "NEED TO FIX FILE NAME READING. IT SORTS 0, 1, 10, 2, ...\
+     instead of reading 0, 1, 2, 3 "
+    images_list = []
+    for image_file in sorted(os.listdir(directory_name)):
+        file_path = os.path.join(directory_name, image_file)
+        images_list.append(imageio.imread(file_path))
+    imageio.mimsave("obrazy/ant_moves.gif", images_list, fps=2)
+    return
