@@ -135,10 +135,11 @@ def test_convert_image_to_board_with_ant_wrong_name():
     """
     Correct image name is:image_mock.png
     """
+    directory = "test_obrazy"
     with pytest.raises(InvalidNameError):
-        convert_image_to_board_with_ant("image1_test.png")
+        convert_image_to_board_with_ant("image1_test.png", directory)
     with pytest.raises(EmptyNameError):
-        convert_image_to_board_with_ant("")
+        convert_image_to_board_with_ant("", directory)
 
 
 def test_convert_image_to_board_with_ant(monkeypatch):
@@ -181,7 +182,8 @@ def test_convert_image_to_board_with_ant(monkeypatch):
     def returnspecificpixel(a, b):
         return (0, 0)
     monkeypatch.setattr("program_project_ant.random_ant_location", returnspecificpixel)
-    x, y, height, width, saved_picture = convert_image_to_board_with_ant("image_mock.png")
+    directory = "test_obrazy"
+    x, y, height, width, saved_picture = convert_image_to_board_with_ant("image_mock.png", directory)
     white_pixels = 0
     black_pixels = 0
     other_color = 0
@@ -204,7 +206,7 @@ def test_convert_image_to_board_with_ant(monkeypatch):
     """
 
 
-def test_create_board_probability_black():
+def test_create_board_with_all_black():
     height = 50
     width = 50
     all_pixels = height * width
@@ -214,7 +216,8 @@ def test_create_board_probability_black():
     black_pixels = 0
     white_pixels = 0
     others_pixel = 0
-    image = create_board(height, width, x, y, probability)
+    directory = "test_obrazy"
+    image = create_board(height, width, x, y, probability, directory)
     image1 = Image.open(image)
     for i in range(50):
         for j in range(50):
@@ -230,5 +233,40 @@ def test_create_board_probability_black():
     assert all_pixels == black_pixels + white_pixels + others_pixel
 
 
-def test_create_board_probability_white():
+def test_create_board_with_all_white():
+    height = 50
+    width = 50
+    all_pixels = height * width
+    probability = 0
+    x = 20
+    y = 25
+    black_pixels = 0
+    white_pixels = 0
+    others_pixel = 0
+    directory = "test_obrazy"
+    image = create_board(height, width, x, y, probability, directory)
+    image1 = Image.open(image)
+    for i in range(50):
+        for j in range(50):
+            if image1.getpixel((i, j)) == WHITE:
+                white_pixels += 1
+            elif image1.getpixel((i, j)) == BLACK:
+                black_pixels += 1
+            else:
+                others_pixel += 1
+    assert black_pixels == 0
+    assert white_pixels == 2499
+    assert others_pixel == 1
+    assert all_pixels == black_pixels + white_pixels + others_pixel
+
+
+def test_board_moves():
+    height = 50
+    width = 50
+    x = 20
+    y = 25
+    moves = 3
+    hop = 1
+    name = "test_image_board_moves.png"
+    directory = "test_obrazy"
     pass

@@ -1,18 +1,19 @@
 from errors_project_ant import WrongProbabilityError
-from program_project_ant import create_gif_from_images, interface
+from program_project_ant import create_gif_from_images, interface, delete_all_image_files_in_dir
 
 
 def main():
     """
     Main function of the program. Uses interface to communicate with user.
-    Has three main options.
+    Has four main options.
     """
 
     print("LANGTON'S ANT\n\
 1 - create white board with given size\n\
 2 - process Langton's ant with given black-white image\n\
 3 - create black-white board with given size and probability\
- of black pixel")
+ of black pixel\n\
+4 - delete all image files from directory 'obrazy'")
     exit_program = False
     while not exit_program:
         choice1 = input("Insert number: ")
@@ -29,6 +30,9 @@ def main():
             except ValueError:
                 raise WrongProbabilityError(probability)
             isExistingPicture = False
+        elif choice1 == "4":
+            delete_all_image_files_in_dir()
+            continue
         else:
             print("-Wrong number-")
             continue

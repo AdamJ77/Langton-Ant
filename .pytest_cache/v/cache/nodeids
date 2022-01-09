@@ -13,6 +13,7 @@
   "test_project_ant.py::test_random_direction_ant",
   "test_project_ant.py::test_convert_image_to_board_with_ant_wrong_name",
   "test_project_ant.py::test_convert_image_to_board_with_ant",
-  "test_project_ant.py::test_create_board_probability_black",
-  "test_project_ant.py::test_create_board_probability_white"
+  "test_project_ant.py::test_create_board_with_all_black",
+  "test_project_ant.py::test_create_board_with_all_white",
+  "test_project_ant.py::test_board_moves"
 ]

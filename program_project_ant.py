@@ -19,6 +19,7 @@ from errors_project_ant import (
 
 
 def interface(probability, isExistingPicture):
+    directory = "obrazy"
     if not isExistingPicture:
         try:
             size2 = input("Insert board size as integers: ")
@@ -32,21 +33,21 @@ def interface(probability, isExistingPicture):
         height = int(height)
         width = int(width)
         x, y = random_ant_location(height, width)
-        name = create_board(height, width, x, y, probability)
+        name = create_board(height, width, x, y, probability, directory)
     else:
         name = input("Insert full name of image file: ")
-        x, y, height, width, savedimage = convert_image_to_board_with_ant(name)
-        name = "obrazy/image_board_first_ex_picture.png"
+        x, y, height, width = convert_image_to_board_with_ant(name, directory)
+        name = f"{directory}/0.png"
     moves = input("Insert number of moves: ")
     moves = int(moves)
     hop = input("Enter every how many moves to save the picture: ")
     hop = int(hop)
     if hop > moves:
         raise OversizedHopError(hop)
-    board_moves(height, width, x, y, moves, hop, name)
+    board_moves(height, width, x, y, moves, hop, name, directory)
 
 
-def create_board(height, width, x, y, probability):
+def create_board(height, width, x, y, probability, directory):
     """
     Creates three dimensional array with given shape (height, width)
     filled with zeros. For each pixel draws either black or white
@@ -60,11 +61,11 @@ def create_board(height, width, x, y, probability):
             array[j, i] = color
     array[x, y] = (255, 128, 0)
     image_demo = Image.fromarray(array)
-    image_demo.save("obrazy/0.png")
-    return "obrazy/0.png"
+    image_demo.save(f"{directory}/0.png")
+    return f"{directory}/0.png"
 
 
-def board_moves(height, width, x, y, moves, hop, name):
+def board_moves(height, width, x, y, moves, hop, name, directory):
     image = Image.open(name)
     numpy_image = np.asarray(image)
     ant = Ant(x, y, directions[0], WHITE)
@@ -112,10 +113,10 @@ def board_moves(height, width, x, y, moves, hop, name):
         y = y_after_move
         if i % hop == 0:
             image_next = Image.fromarray(numpy_image)
-            image_next.save(f"obrazy/{i}.png")
+            image_next.save(f"{directory}/{i}.png")
 
 
-def convert_image_to_board_with_ant(name):
+def convert_image_to_board_with_ant(name, directory):
     """
     Converts given png image into 3-dimensional array (RGB)
     and puts orange pixel(ant) in random pixel.
@@ -135,7 +136,7 @@ def convert_image_to_board_with_ant(name):
     x, y = random_ant_location(height_img, width_img)
     numpy_img[x, y] = (255, 128, 0)
     final_image = Image.fromarray(numpy_img)
-    final_image.save("obrazy/image_board_0_from_mock.png")
+    final_image.save(f"{directory}/0.png")
     return (x, y, height_img, width_img, final_image)
 
 
@@ -148,5 +149,15 @@ def create_gif_from_images(directory_name, ips):
     for image_file in sorted(os.listdir(directory_name), key=lambda x: int(x[:-4])):
         file_path = os.path.join(directory_name, image_file)
         images_list.append(imageio.imread(file_path))
-    imageio.mimsave("obrazy/ant_moves.gif", images_list, fps=ips)
+    imageio.mimsave(f"{directory_name}/ant_moves.gif", images_list, fps=ips)
+    return
+
+
+def delete_all_image_files_in_dir():
+    """
+    Removes all files from 'obrazy' directory.
+    """
+    directory = "obrazy"
+    for file_image in os.listdir(directory):
+        os.remove(os.path.join(directory, file_image))
     return
