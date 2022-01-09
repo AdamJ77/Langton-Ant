@@ -60,8 +60,8 @@ def create_board(height, width, x, y, probability):
             array[j, i] = color
     array[x, y] = (255, 128, 0)
     image_demo = Image.fromarray(array)
-    image_demo.save("obrazy/image_board_0.png")
-    return "obrazy/image_board_0.png"
+    image_demo.save("obrazy/0.png")
+    return "obrazy/0.png"
 
 
 def board_moves(height, width, x, y, moves, hop, name):
@@ -78,47 +78,41 @@ def board_moves(height, width, x, y, moves, hop, name):
         way = ant.get_direction()
         x_ant = ant.get_x()
         y_ant = ant.get_y()
+        random_way = way
         if (way == "left" or way == "up") and \
            (y_ant == 0 and x_ant == 0):
             random_way = random_direction_ant(["left", "up"])
-            ant.set_direction(random_way)
         elif (way == "up" or way == "right") and \
              (x_ant == 0 and y_ant == width - 1):
             random_way = random_direction_ant(["right", "up"])
-            ant.set_direction(random_way)
         elif (way == "down" or way == "right") and \
              (x_ant == height - 1 and y_ant == width - 1):
             random_way = random_direction_ant(["right", "down"])
-            ant.set_direction(random_way)
         elif (way == "left" or way == "down") and \
              (x_ant == height - 1 and y_ant == 0):
             random_way = random_direction_ant(["left", "down"])
-            ant.set_direction(random_way)
         elif way == "up" and x_ant == 0:
             random_way = random_direction_ant(["up"])
-            ant.set_direction(random_way)
         elif way == "right" and y_ant == width - 1:
             random_way = random_direction_ant(["right"])
-            ant.set_direction(random_way)
         elif way == "down" and x_ant == height - 1:
             random_way = random_direction_ant(["down"])
-            ant.set_direction(random_way)
         elif way == "left" and y_ant == 0:
             random_way = random_direction_ant(["left"])
-            ant.set_direction(random_way)
+        ant.set_direction(random_way)
         ant.move_forward()
-        x1 = ant.get_x()
-        y1 = ant.get_y()
-        if WHITE in numpy_image[x1, y1]:
+        x_after_move = ant.get_x()
+        y_after_move = ant.get_y()
+        if WHITE in numpy_image[x_after_move, y_after_move]:
             ant.set_pixel_color(WHITE)
         else:
             ant.set_pixel_color(BLACK)
-        numpy_image[x1, y1] = (255, 128, 0)
-        x = x1
-        y = y1
+        numpy_image[x_after_move, y_after_move] = (255, 128, 0)
+        x = x_after_move
+        y = y_after_move
         if i % hop == 0:
             image_next = Image.fromarray(numpy_image)
-            image_next.save(f"obrazy/image_board_{i}.png")
+            image_next.save(f"obrazy/{i}.png")
 
 
 def convert_image_to_board_with_ant(name):
@@ -145,12 +139,14 @@ def convert_image_to_board_with_ant(name):
     return (x, y, height_img, width_img, final_image)
 
 
-def create_gif_from_images(directory_name):
-    "NEED TO FIX FILE NAME READING. IT SORTS 0, 1, 10, 2, ...\
-     instead of reading 0, 1, 2, 3 "
+def create_gif_from_images(directory_name, ips):
+    """
+    Creates gif file from png images in directory 'obrazy'
+    with given speed.
+    """
     images_list = []
-    for image_file in sorted(os.listdir(directory_name)):
+    for image_file in sorted(os.listdir(directory_name), key=lambda x: int(x[:-4])):
         file_path = os.path.join(directory_name, image_file)
         images_list.append(imageio.imread(file_path))
-    imageio.mimsave("obrazy/ant_moves.gif", images_list, fps=2)
+    imageio.mimsave("obrazy/ant_moves.gif", images_list, fps=ips)
     return

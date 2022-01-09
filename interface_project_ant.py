@@ -9,9 +9,9 @@ def main():
     """
 
     print("LANGTON'S ANT\n\
-    1 - create white board with given size\n\
-    2 - process Langton's ant with given black-white image\n\
-    3 - create black-white board with given size and probability\
+1 - create white board with given size\n\
+2 - process Langton's ant with given black-white image\n\
+3 - create black-white board with given size and probability\
  of black pixel")
     exit_program = False
     while not exit_program:
@@ -33,10 +33,11 @@ def main():
             print("-Wrong number-")
             continue
         interface(probability, isExistingPicture)
-        choice2 = input("Make gif from images?\n1 - Yes\n2- No\n: ")
-        if choice2 == "1":
+        if_gif = input("Make gif from images?\n1 - Yes\n2 - No\n: ")
+        if if_gif == "1":
+            images_per_sec = input("Insert number of images per sec in gif: ")
             directory = "obrazy/"
-            create_gif_from_images(directory)
+            create_gif_from_images(directory, images_per_sec)
         print("Results in directory 'obrazy'")
         exit_program = True
 
