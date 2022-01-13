@@ -1,5 +1,8 @@
 from errors_project_ant import WrongProbabilityError
-from program_project_ant import create_gif_from_images, interface, delete_all_image_files_in_dir
+from program_project_ant import (
+    create_gif_from_images,
+    interface,
+    delete_all_image_files_in_dir)
 
 
 def main():

@@ -2,7 +2,11 @@ import imageio
 import os
 import numpy as np
 from PIL import Image
-from config_project_ant import BLACK, WHITE, directions
+from config_project_ant import (
+    BLACK,
+    WHITE,
+    directions
+)
 from classes_project_ant import Ant
 from random_utils_project_ant import (
     random_ant_location,
@@ -35,8 +39,8 @@ def interface(probability, isExistingPicture):
         x, y = random_ant_location(height, width)
         name = create_board(height, width, x, y, probability, directory)
     else:
-        name = input("Insert full name of image file: ")
-        x, y, height, width = convert_image_to_board_with_ant(name, directory)
+        name = input("Insert full name of image file (Attention: Use 'image_mock.png' as sample): ")
+        x, y, height, width, saved_picture = convert_image_to_board_with_ant(name, directory)
         name = f"{directory}/0.png"
     moves = input("Insert number of moves: ")
     moves = int(moves)
@@ -119,7 +123,7 @@ def board_moves(height, width, x, y, moves, hop, name, directory):
 def convert_image_to_board_with_ant(name, directory):
     """
     Converts given png image into 3-dimensional array (RGB)
-    and puts orange pixel(ant) in random pixel.
+    and puts orange pixel(ant) in random pixel. Use 'image_mock.png' as sample image.
     Saves new image as image_board_first_ex_picture.png in
     directory obrazy. Returns size of new picture, location of ant
     and new image itself.
@@ -140,16 +144,31 @@ def convert_image_to_board_with_ant(name, directory):
     return (x, y, height_img, width_img, final_image)
 
 
-def create_gif_from_images(directory_name, ips):
+def count_number_of_color_pixels(height, width, image):
+    white_pixels = 0
+    black_pixels = 0
+    other_colors_pixels = 0
+    for i in range(height):
+        for j in range(width):
+            if image.getpixel((i, j)) == WHITE:
+                white_pixels += 1
+            elif image.getpixel((i, j)) == BLACK:
+                black_pixels += 1
+            else:
+                other_colors_pixels += 1
+    return (white_pixels, black_pixels, other_colors_pixels)
+
+
+def create_gif_from_images(dir_name, ips):
     """
     Creates gif file from png images in directory 'obrazy'
     with given speed.
     """
     images_list = []
-    for image_file in sorted(os.listdir(directory_name), key=lambda x: int(x[:-4])):
-        file_path = os.path.join(directory_name, image_file)
+    for image_file in sorted(os.listdir(dir_name), key=lambda x: int(x[:-4])):
+        file_path = os.path.join(dir_name, image_file)
         images_list.append(imageio.imread(file_path))
-    imageio.mimsave(f"{directory_name}/ant_moves.gif", images_list, fps=ips)
+    imageio.mimsave(f"{dir_name}/ant_moves.gif", images_list, fps=ips)
     return
 
 

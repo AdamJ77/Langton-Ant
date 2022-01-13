@@ -14,7 +14,12 @@ from errors_project_ant import (
     WrongProbabilityError
 )
 from config_project_ant import BLACK, WHITE
-from program_project_ant import convert_image_to_board_with_ant, create_board, interface
+from program_project_ant import (
+    convert_image_to_board_with_ant,
+    create_board,
+    interface,
+    count_number_of_color_pixels
+)
 from random_utils_project_ant import (
     random_ant_location,
     random_color_square,
@@ -145,26 +150,20 @@ def test_convert_image_to_board_with_ant_wrong_name():
 def test_convert_image_to_board_with_ant(monkeypatch):
     """
     Testing image param:
-    name: image_mock.png
+    name: image_mock_test.png
     size: 100 x 100 pixels
     pixel colors: black and white
     """
-    image_test = Image.open("image_mock.png")
+    image_test = Image.open("test_obrazy/image_mock_test.png")
     image_test1 = image_test.convert("RGB")
     height, width = image_test1.size
     assert height == 100 and width == 100
 
     "CALCULATING NUMBER OF BLACK AND WHITE PIXELS"
-    number_of_white_pixels = 0
-    number_of_black_pixels = 0
-    for i in range(100):
-        for j in range(100):
-            if image_test1.getpixel((i, j)) == WHITE:
-                number_of_white_pixels += 1
-            else:
-                number_of_black_pixels += 1
+    number_of_white_pixels, number_of_black_pixels, other = count_number_of_color_pixels(height, width, image_test1)
     assert number_of_black_pixels == 4954
     assert number_of_white_pixels == 5046
+    assert other == 0
     """
     KNOWING NUMBER OF BLACK AND WHITE PIXELS FUNCTION WILL
     CHANGE ONE PIXEL (monkeypatch - BLACK) SO NUMBER OF BLACK
@@ -175,6 +174,9 @@ def test_convert_image_to_board_with_ant(monkeypatch):
     location: (0, 0) [left, top corner]
     color: black
     """
+    pixel_color = image_test1.getpixel((0, 0))
+    assert pixel_color == BLACK
+    assert pixel_color != WHITE
     """
     New image:
     name: saved_picture
@@ -183,23 +185,13 @@ def test_convert_image_to_board_with_ant(monkeypatch):
         return (0, 0)
     monkeypatch.setattr("program_project_ant.random_ant_location", returnspecificpixel)
     directory = "test_obrazy"
-    x, y, height, width, saved_picture = convert_image_to_board_with_ant("image_mock.png", directory)
-    white_pixels = 0
-    black_pixels = 0
-    other_color = 0
-    for i in range(100):
-        for j in range(100):
-            if saved_picture.getpixel((i, j)) == WHITE:
-                white_pixels += 1
-            elif saved_picture.getpixel((i, j)) == BLACK:
-                black_pixels += 1
-            else:
-                other_color += 1
+    x, y, height1, width1, saved_picture = convert_image_to_board_with_ant("image_mock.png", directory)
+    white_pixels, black_pixels, other_colors_pixels = count_number_of_color_pixels(height1, width1, saved_picture)
     assert x == 0 and y == 0
-    assert height == 100 and width == 100
+    assert height1 == 100 and width1 == 100
     assert white_pixels == 5046
     assert black_pixels == 4954 - 1
-    assert other_color == 1
+    assert other_colors_pixels == 1
     """
     In directory obrazy new image was created. Ant(orange pixel)
     is located in top left corner.
@@ -213,20 +205,10 @@ def test_create_board_with_all_black():
     probability = 1
     x = 20
     y = 25
-    black_pixels = 0
-    white_pixels = 0
-    others_pixel = 0
     directory = "test_obrazy"
     image = create_board(height, width, x, y, probability, directory)
     image1 = Image.open(image)
-    for i in range(50):
-        for j in range(50):
-            if image1.getpixel((i, j)) == WHITE:
-                white_pixels += 1
-            elif image1.getpixel((i, j)) == BLACK:
-                black_pixels += 1
-            else:
-                others_pixel += 1
+    white_pixels, black_pixels, others_pixel = count_number_of_color_pixels(height, width, image1)
     assert black_pixels == 2499
     assert white_pixels == 0
     assert others_pixel == 1
@@ -240,20 +222,10 @@ def test_create_board_with_all_white():
     probability = 0
     x = 20
     y = 25
-    black_pixels = 0
-    white_pixels = 0
-    others_pixel = 0
     directory = "test_obrazy"
     image = create_board(height, width, x, y, probability, directory)
     image1 = Image.open(image)
-    for i in range(50):
-        for j in range(50):
-            if image1.getpixel((i, j)) == WHITE:
-                white_pixels += 1
-            elif image1.getpixel((i, j)) == BLACK:
-                black_pixels += 1
-            else:
-                others_pixel += 1
+    white_pixels, black_pixels, others_pixel = count_number_of_color_pixels(height, width, image1)
     assert black_pixels == 0
     assert white_pixels == 2499
     assert others_pixel == 1
@@ -261,12 +233,12 @@ def test_create_board_with_all_white():
 
 
 def test_board_moves():
-    height = 50
-    width = 50
-    x = 20
-    y = 25
-    moves = 3
-    hop = 1
-    name = "test_image_board_moves.png"
-    directory = "test_obrazy"
+    # height = 50
+    # width = 50
+    # x = 20
+    # y = 25
+    # moves = 3
+    # hop = 1
+    # name = "test_image_board_moves.png"
+    # directory = "test_obrazy"
     pass
