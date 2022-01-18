@@ -13,7 +13,7 @@ def main():
 
     print("LANGTON'S ANT\n\
 1 - create white board with given size\n\
-2 - process Langton's ant with given black-white image\n\
+2 - transform black-white image to Langton's ant board\n\
 3 - create black-white board with given size and probability\
  of black pixel\n\
 4 - delete all image files from directory 'obrazy'")

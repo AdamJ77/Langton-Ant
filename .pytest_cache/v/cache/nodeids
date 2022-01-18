@@ -1,3 +1,22 @@
 [
-  "test_project_ant.py::test_convert_image_to_board_with_ant"
+  "test_project_ant.py::test_ant",
+  "test_project_ant.py::test_ant_new",
+  "test_project_ant.py::test_invalid_direction_ant",
+  "test_project_ant.py::test_invalid_pixel_color",
+  "test_project_ant.py::test_ant_pivot",
+  "test_project_ant.py::test_ant_move_forward",
+  "test_project_ant.py::test_random_ant_location",
+  "test_project_ant.py::test_random_ant_location_error",
+  "test_project_ant.py::test_random_color_square_black_white_certain",
+  "test_project_ant.py::test_random_color_square",
+  "test_project_ant.py::test_random_color_square_invalid_probability",
+  "test_project_ant.py::test_random_direction_ant",
+  "test_project_ant.py::test_convert_image_to_board_with_ant_wrong_name",
+  "test_project_ant.py::test_convert_image_to_board_with_ant",
+  "test_project_ant.py::test_create_board_with_all_black",
+  "test_project_ant.py::test_create_board_with_all_white",
+  "test_project_ant.py::test_convert_image_wrong_color_error",
+  "test_project_ant.py::test_wrong_board_size",
+  "test_project_ant.py::test_too_big_hop",
+  "test_project_ant.py::test_board_moves"
 ]

@@ -1,3 +1,4 @@
+from turtle import width
 from classes_project_ant import Ant
 from classes_project_ant import (
     EmptyDirectionError,
@@ -6,6 +7,7 @@ from classes_project_ant import (
     InvalidDirectionError,
 )
 from errors_project_ant import (
+    IncorrectImageColorsError,
     WrongDimensionsError,
     WrongBoardSizeError,
     InvalidNameError,
@@ -15,6 +17,8 @@ from errors_project_ant import (
 )
 from config_project_ant import BLACK, WHITE
 from program_project_ant import (
+    check_if_too_big_hop,
+    check_if_wrong_board_size,
     convert_image_to_board_with_ant,
     create_board,
     interface,
@@ -31,7 +35,7 @@ import numpy as np
 
 
 def test_ant():
-    ant = Ant(5, 6, "up", BLACK)
+    ant = Ant(5, 6, BLACK, "up", )
     assert ant.get_x() == 5
     assert ant.get_y() == 6
     assert ant.get_direction() == "up"
@@ -39,7 +43,7 @@ def test_ant():
 
 
 def test_ant_new():
-    ant = Ant(5, 6, "up", BLACK)
+    ant = Ant(5, 6, BLACK, "up")
     assert ant.get_x() == 5
     assert ant.get_y() == 6
     assert ant.get_direction() == "up"
@@ -55,7 +59,7 @@ def test_ant_new():
 
 
 def test_invalid_direction_ant():
-    ant = Ant(5, 6, "up", BLACK)
+    ant = Ant(5, 6, BLACK, "up")
     with pytest.raises(InvalidDirectionError):
         ant.set_direction("-1")
     with pytest.raises(EmptyDirectionError):
@@ -64,14 +68,14 @@ def test_invalid_direction_ant():
 
 def test_invalid_pixel_color():
     with pytest.raises(InvalidColorError):
-        Ant(4, 6, "up", 2)
+        Ant(4, 6, 2, "up")
     with pytest.raises(EmptyPixelColorError):
-        Ant(4, 7, "right", ())
+        Ant(4, 7, (), "right")
 
 
 def test_ant_pivot():
-    ant1 = Ant(5, 6, "up", BLACK)
-    ant2 = Ant(10, 24, "left", WHITE)
+    ant1 = Ant(5, 6, BLACK, "up")
+    ant2 = Ant(10, 24, WHITE, "left")
     ant1.pivot()
     ant2.pivot()
     assert ant1.get_direction() == "right"
@@ -79,10 +83,10 @@ def test_ant_pivot():
 
 
 def test_ant_move_forward():
-    ant1 = Ant(10, 10, "up", BLACK)
-    ant2 = Ant(10, 10, "left", WHITE)
-    ant3 = Ant(10, 10, "right", WHITE)
-    ant4 = Ant(10, 10, "down", BLACK)
+    ant1 = Ant(10, 10, BLACK, "up")
+    ant2 = Ant(10, 10, WHITE, "left")
+    ant3 = Ant(10, 10, WHITE, "right")
+    ant4 = Ant(10, 10, BLACK, "down")
     ant1.move_forward()
     ant2.move_forward()
     ant3.move_forward()
@@ -138,7 +142,7 @@ def test_random_direction_ant(monkeypatch):
 
 def test_convert_image_to_board_with_ant_wrong_name():
     """
-    Correct image name is:image_mock.png
+    Correct image name: image_mock.png
     """
     directory = "test_obrazy"
     with pytest.raises(InvalidNameError):
@@ -177,10 +181,7 @@ def test_convert_image_to_board_with_ant(monkeypatch):
     pixel_color = image_test1.getpixel((0, 0))
     assert pixel_color == BLACK
     assert pixel_color != WHITE
-    """
-    New image:
-    name: saved_picture
-    """
+
     def returnspecificpixel(a, b):
         return (0, 0)
     monkeypatch.setattr("program_project_ant.random_ant_location", returnspecificpixel)
@@ -217,19 +218,38 @@ def test_create_board_with_all_black():
 
 def test_create_board_with_all_white():
     height = 50
-    width = 50
-    all_pixels = height * width
+    width1 = 50
+    all_pixels = height * width1
     probability = 0
     x = 20
     y = 25
     directory = "test_obrazy"
-    image = create_board(height, width, x, y, probability, directory)
+    image = create_board(height, width1, x, y, probability, directory)
     image1 = Image.open(image)
-    white_pixels, black_pixels, others_pixel = count_number_of_color_pixels(height, width, image1)
+    white_pixels, black_pixels, others_pixel = count_number_of_color_pixels(height, width1, image1)
     assert black_pixels == 0
     assert white_pixels == 2499
     assert others_pixel == 1
     assert all_pixels == black_pixels + white_pixels + others_pixel
+
+
+def test_convert_image_wrong_color_error():
+    image_test_color = "test_obrazy/image_mock_test_color.png"
+    directory = "test_obrazy"
+    with pytest.raises(IncorrectImageColorsError):
+        convert_image_to_board_with_ant(image_test_color, directory)
+
+
+def test_wrong_board_size():
+    with pytest.raises(WrongDimensionsError):
+        check_if_wrong_board_size(1, 3)
+
+
+def test_too_big_hop():
+    moves = 10
+    hop = 20
+    with pytest.raises(OversizedHopError):
+        check_if_too_big_hop(moves, hop)
 
 
 def test_board_moves():

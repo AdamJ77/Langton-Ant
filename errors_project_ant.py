@@ -13,7 +13,7 @@ class WrongDimensionsError(Exception):
 
 class WrongBoardSizeError(Exception):
     def __init__(self, size2) -> None:
-        super().__init__("Board size must be positive integers greater than 1")
+        super().__init__("Board size must be two positive integers greater than 1")
         self.size2 = size2
 
 
@@ -31,3 +31,15 @@ class OversizedHopError(Exception):
 
 class EmptyNameError(Exception):
     pass
+
+
+class IncorrectImageColorsError(Exception):
+    def __init__(self, others):
+        super().__init__("Detected pixel color different than black or white")
+        self.others = others
+
+
+class IncorrectTypeError(Exception):
+    def __init__(self, hop):
+        super().__init__("Hop must be an integer")
+        self.hop = hop

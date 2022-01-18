@@ -20,7 +20,7 @@ class InvalidColorError(Exception):
 
 
 class Ant:
-    def __init__(self, x: int, y: int, direction: str, pixel_color: tuple):
+    def __init__(self, x: int, y: int,  pixel_color: tuple, direction: str = "up"):
         """
         Class Ant. Contains attributes:
         :param x: ant's x (height) coordinate (location)
@@ -40,10 +40,10 @@ class Ant:
         self._y = y
         if not pixel_color:
             raise EmptyPixelColorError("Color cannot be empty")
-        if pixel_color is not WHITE and pixel_color is not BLACK:
+        if pixel_color not in (WHITE, BLACK):
             raise InvalidColorError("Invalid color")
         self._pixel_color = pixel_color
-        self._direction = direction if direction else "up"
+        self._direction = direction
 
     def get_direction(self):
         return self._direction
