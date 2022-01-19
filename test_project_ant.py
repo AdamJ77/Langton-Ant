@@ -1,4 +1,3 @@
-from turtle import width
 from classes_project_ant import Ant
 from classes_project_ant import (
     EmptyDirectionError,
@@ -9,7 +8,6 @@ from classes_project_ant import (
 from errors_project_ant import (
     IncorrectImageColorsError,
     WrongDimensionsError,
-    WrongBoardSizeError,
     InvalidNameError,
     OversizedHopError,
     EmptyNameError,
@@ -21,7 +19,6 @@ from program_project_ant import (
     check_if_wrong_board_size,
     convert_image_to_board_with_ant,
     create_board,
-    interface,
     count_number_of_color_pixels
 )
 from random_utils_project_ant import (
@@ -31,7 +28,6 @@ from random_utils_project_ant import (
 )
 import pytest
 from PIL import Image
-import numpy as np
 
 
 def test_ant():

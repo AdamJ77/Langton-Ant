@@ -44,7 +44,7 @@ def interface(probability, isExistingPicture):
         name = create_board(height, width, x, y, probability, directory)
     else:
         name = input("Insert full name of image file \
-            (Attention: Use 'image_mock.png' as sample): ")
+(Attention: Use 'image_mock.png' as sample): ")
         x, y, height, width, saved_picture = convert_image_to_board_with_ant(name, directory)
         name = f"{directory}/0.png"
     moves = input("Insert number of moves: ")
@@ -151,7 +151,7 @@ def convert_image_to_board_with_ant(name, directory):
     height_img, width_img = image_rgb.size
     numpy_img = np.asarray(image_rgb)
     w, b, othe = count_number_of_color_pixels(height_img, width_img, image_rgb)
-    if othe >= 0:
+    if othe > 0:
         raise IncorrectImageColorsError(othe)
     x, y = random_ant_location(height_img, width_img)
     numpy_img[x, y] = (255, 128, 0)
