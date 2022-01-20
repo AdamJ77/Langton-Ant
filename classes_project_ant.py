@@ -20,7 +20,7 @@ class InvalidColorError(Exception):
 
 
 class Ant:
-    def __init__(self, x: int, y: int,  pixel_color: tuple, direction: str = "up"):
+    def __init__(self, x: int, y: int,  pixel_color: tuple, direction="up"):
         """
         Class Ant. Contains attributes:
         :param x: ant's x (height) coordinate (location)

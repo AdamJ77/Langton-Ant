@@ -17,6 +17,5 @@
   "test_project_ant.py::test_create_board_with_all_white",
   "test_project_ant.py::test_convert_image_wrong_color_error",
   "test_project_ant.py::test_wrong_board_size",
-  "test_project_ant.py::test_too_big_hop",
-  "test_project_ant.py::test_board_moves"
+  "test_project_ant.py::test_too_big_hop"
 ]

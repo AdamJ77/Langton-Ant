@@ -160,7 +160,8 @@ def test_convert_image_to_board_with_ant(monkeypatch):
     assert height == 100 and width == 100
 
     "CALCULATING NUMBER OF BLACK AND WHITE PIXELS"
-    number_of_white_pixels, number_of_black_pixels, other = count_number_of_color_pixels(height, width, image_test1)
+    temp = count_number_of_color_pixels(height, width, image_test1)
+    number_of_white_pixels, number_of_black_pixels, other = temp
     assert number_of_black_pixels == 4954
     assert number_of_white_pixels == 5046
     assert other == 0
@@ -178,12 +179,14 @@ def test_convert_image_to_board_with_ant(monkeypatch):
     assert pixel_color == BLACK
     assert pixel_color != WHITE
 
-    def returnspecificpixel(a, b):
+    def returnpixel(a, b):
         return (0, 0)
-    monkeypatch.setattr("program_project_ant.random_ant_location", returnspecificpixel)
+    monkeypatch.setattr("program_project_ant.random_ant_location", returnpixel)
     directory = "test_obrazy"
-    x, y, height1, width1, saved_picture = convert_image_to_board_with_ant("image_mock.png", directory)
-    white_pixels, black_pixels, other_colors_pixels = count_number_of_color_pixels(height1, width1, saved_picture)
+    temp = convert_image_to_board_with_ant("image_mock.png", directory)
+    x, y, height1, width1, saved_picture = temp
+    temp1 = count_number_of_color_pixels(height1, width1, saved_picture)
+    white_pixels, black_pixels, other_colors_pixels = temp1
     assert x == 0 and y == 0
     assert height1 == 100 and width1 == 100
     assert white_pixels == 5046
@@ -205,7 +208,8 @@ def test_create_board_with_all_black():
     directory = "test_obrazy"
     image = create_board(height, width, x, y, probability, directory)
     image1 = Image.open(image)
-    white_pixels, black_pixels, others_pixel = count_number_of_color_pixels(height, width, image1)
+    temp = count_number_of_color_pixels(height, width, image1)
+    white_pixels, black_pixels, others_pixel = temp
     assert black_pixels == 2499
     assert white_pixels == 0
     assert others_pixel == 1
@@ -222,7 +226,8 @@ def test_create_board_with_all_white():
     directory = "test_obrazy"
     image = create_board(height, width1, x, y, probability, directory)
     image1 = Image.open(image)
-    white_pixels, black_pixels, others_pixel = count_number_of_color_pixels(height, width1, image1)
+    temp = count_number_of_color_pixels(height, width1, image1)
+    white_pixels, black_pixels, others_pixel = temp
     assert black_pixels == 0
     assert white_pixels == 2499
     assert others_pixel == 1
@@ -246,15 +251,3 @@ def test_too_big_hop():
     hop = 20
     with pytest.raises(OversizedHopError):
         check_if_too_big_hop(moves, hop)
-
-
-def test_board_moves():
-    # height = 50
-    # width = 50
-    # x = 20
-    # y = 25
-    # moves = 3
-    # hop = 1
-    # name = "test_image_board_moves.png"
-    # directory = "test_obrazy"
-    pass

@@ -45,7 +45,8 @@ def interface(probability, isExistingPicture):
     else:
         name = input("Insert full name of image file \
 (Attention: Use 'image_mock.png' as sample): ")
-        x, y, height, width, saved_picture = convert_image_to_board_with_ant(name, directory)
+        temp = convert_image_to_board_with_ant(name, directory)
+        x, y, height, width, saved_picture = temp
         name = f"{directory}/0.png"
     moves = input("Insert number of moves: ")
     hop = input("Enter every how many moves to save the picture: ")

@@ -13,7 +13,8 @@ class WrongDimensionsError(Exception):
 
 class WrongBoardSizeError(Exception):
     def __init__(self, size2) -> None:
-        super().__init__("Board size must be two positive integers greater than 1")
+        msg = "Board size must be two positive integers greater than 1"
+        super().__init__(msg)
         self.size2 = size2
 
 
