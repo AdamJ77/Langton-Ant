@@ -8,15 +8,15 @@ from program_project_ant import (
 def main():
     """
     Main function of the program. Uses interface to communicate with user.
-    Has four main options.
+    Has three main options. Deletes all files in directory 'obrazy' before
+    creating new ones.
     """
 
     print("LANGTON'S ANT\n\
 1 - create white board with given size\n\
 2 - transform black-white image to Langton's ant board\n\
 3 - create black-white board with given size and probability\
- of black pixel\n\
-4 - delete all image files from directory 'obrazy'")
+ of black pixel\n")
     exit_program = False
     while not exit_program:
         choice1 = input("Insert number: ")
@@ -33,12 +33,10 @@ def main():
             except ValueError:
                 raise WrongProbabilityError(probability)
             isExistingPicture = False
-        elif choice1 == "4":
-            delete_all_image_files_in_dir()
-            continue
         else:
             print("-Wrong number-")
             continue
+        delete_all_image_files_in_dir()
         interface(probability, isExistingPicture)
         if_gif = input("Make gif from images?\n1 - Yes\n2 - No\n: ")
         if if_gif == "1":
