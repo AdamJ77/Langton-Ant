@@ -16,7 +16,7 @@ def main():
 1 - create white board with given size\n\
 2 - transform black-white image to Langton's ant board\n\
 3 - create black-white board with given size and probability\
- of black pixel\n")
+ of black pixel\nPROGRAM DELETES ALL PREVIOUS IMAGE FILES BEFORE RUNNING")
     exit_program = False
     while not exit_program:
         choice1 = input("Insert number: ")
