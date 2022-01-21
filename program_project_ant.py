@@ -41,7 +41,7 @@ def interface(probability, isExistingPicture):
             raise WrongBoardSizeError(size2)
         check_if_wrong_board_size(height, width)
         x, y = random_ant_location(height, width)
-        name = create_board(height, width, x, y, probability, directory)
+        name, st_color = create_board(height, width, x, y, probability, directory)
     else:
         name = input("Insert full name of image file \
 (Attention: Use 'image_mock.png' as sample): ")
@@ -56,7 +56,7 @@ def interface(probability, isExistingPicture):
     except ValueError:
         raise IncorrectTypeError(hop)
     check_if_too_big_hop(moves, hop)
-    board_moves(height, width, x, y, moves, hop, name, directory)
+    board_moves(height, width, x, y, moves, hop, name, directory, st_color)
 
 
 def create_board(height, width, x, y, probability, directory):
@@ -67,18 +67,21 @@ def create_board(height, width, x, y, probability, directory):
     For given ant location (x, y), it puts orange color in this pixel.
     Saves image in directory.
     """
+    starting_color = WHITE
     array = np.zeros([height, width, 3], dtype=np.uint8)
     for i in range(width):
         for j in range(height):
             color = random_color_square(probability)
             array[j, i] = color
+            if (j, i) == (x, y):
+                starting_color = color
     array[x, y] = (255, 128, 0)
     image_demo = Image.fromarray(array)
     image_demo.save(f"{directory}/0.png")
-    return f"{directory}/0.png"
+    return f"{directory}/0.png", starting_color
 
 
-def board_moves(height, width, x, y, moves, hop, name, directory):
+def board_moves(height, width, x, y, moves, hop, name, directory, st_color):
     """
     Controls movement of Ant and colors of pixels on board in image file.
     When Ant is about to cross the borders of an image, it chooses
@@ -86,7 +89,7 @@ def board_moves(height, width, x, y, moves, hop, name, directory):
     """
     image = Image.open(name)
     numpy_image = np.asarray(image)
-    ant = Ant(x, y, WHITE, directions[0])
+    ant = Ant(x, y, st_color, directions[0])
     for i in range(1, moves + 1):
         color = ant.get_pixel_color()
         if color is WHITE:

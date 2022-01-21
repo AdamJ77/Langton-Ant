@@ -206,7 +206,7 @@ def test_create_board_with_all_black():
     x = 20
     y = 25
     directory = "test_obrazy"
-    image = create_board(height, width, x, y, probability, directory)
+    image, st_color = create_board(height, width, x, y, probability, directory)
     image1 = Image.open(image)
     temp = count_number_of_color_pixels(height, width, image1)
     white_pixels, black_pixels, others_pixel = temp
@@ -224,7 +224,7 @@ def test_create_board_with_all_white():
     x = 20
     y = 25
     directory = "test_obrazy"
-    image = create_board(height, width1, x, y, probability, directory)
+    image, st_color = create_board(height, width1, x, y, probability, directory)
     image1 = Image.open(image)
     temp = count_number_of_color_pixels(height, width1, image1)
     white_pixels, black_pixels, others_pixel = temp
